@@ -1,0 +1,918 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --navy: #0B3954;
+    --blue: #0A6EBD;
+    --green: #2E8B57;
+    --cream: #F4E3C1;
+    --coral: #FF7F50;
+    --ink: #173447;
+    --muted: #6B7D89;
+    --line: #E2EDF2;
+    --pale: #F2F8FB;
+    --shadow: 0 12px 34px rgba(11, 57, 84, 0.10);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 90px;
+}
+
+body {
+    margin: 0;
+    color: var(--ink);
+    background: #FFFFFF;
+    font-family: "Poppins", "Noto Sans Tamil", sans-serif;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.container {
+    width: min(1160px, calc(100% - 40px));
+    margin: auto;
+}
+
+/* HEADER */
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: rgba(255, 255, 255, 0.97);
+    border-bottom: 1px solid var(--line);
+    backdrop-filter: blur(12px);
+}
+
+.header-inner {
+    min-height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.brand-icon {
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    background: var(--navy);
+    font-size: 25px;
+}
+
+.brand strong,
+.brand small {
+    display: block;
+}
+
+.brand strong {
+    color: var(--navy);
+    font: 700 16px "Noto Sans Tamil", sans-serif;
+}
+
+.brand small {
+    margin-top: 3px;
+    color: var(--blue);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.nav-links a:hover {
+    color: var(--blue);
+}
+
+.cart-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 14px;
+    border: 0;
+    border-radius: 11px;
+    background: var(--blue);
+    color: white;
+    font-weight: 700;
+}
+
+.cart-button span {
+    min-width: 22px;
+    height: 22px;
+    display: grid;
+    place-items: center;
+    padding: 0 5px;
+    border-radius: 50%;
+    background: white;
+    color: var(--blue);
+}
+
+.menu-toggle {
+    display: none;
+    border: 0;
+    background: transparent;
+    color: var(--navy);
+    font-size: 25px;
+}
+
+/* HERO */
+
+.hero {
+    background: linear-gradient(120deg, #EFF8FC, #E3F3F8);
+    overflow: hidden;
+}
+
+.hero-inner {
+    min-height: 410px;
+    padding-block: 45px;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    align-items: center;
+    gap: 30px;
+}
+
+.eyebrow {
+    color: var(--green);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.7px;
+}
+
+.hero h1 {
+    margin: 12px 0;
+    color: var(--navy);
+    font: 800 clamp(30px, 4vw, 47px)/1.5 "Noto Sans Tamil", sans-serif;
+}
+
+.hero h1 span {
+    display: block;
+    color: var(--blue);
+}
+
+.hero-content > p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.9;
+}
+
+.primary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 13px 19px;
+    border: 0;
+    border-radius: 11px;
+    background: var(--blue);
+    color: white;
+    font-size: 13px;
+    font-weight: 700;
+    box-shadow: 0 8px 18px rgba(10, 110, 189, 0.15);
+    transition: background 0.2s, transform 0.2s;
+}
+
+.primary-button:hover {
+    background: var(--navy);
+    transform: translateY(-2px);
+}
+
+.hero-points {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 23px;
+    color: #426477;
+    font-size: 11px;
+}
+
+.hero-art {
+    min-height: 270px;
+    position: relative;
+    display: grid;
+    place-items: center;
+}
+
+.hero-circle {
+    position: absolute;
+    width: min(300px, 80%);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #BDE4EE, #E7F7F8);
+}
+
+.hero-fish {
+    position: relative;
+    font-size: clamp(110px, 16vw, 170px);
+    filter: drop-shadow(0 12px 10px rgba(11, 57, 84, 0.15));
+    transform: rotate(-9deg);
+}
+
+.hero-label {
+    position: absolute;
+    right: 3%;
+    bottom: 5%;
+    padding: 12px 17px;
+    border-radius: 12px;
+    background: white;
+    box-shadow: var(--shadow);
+    font-size: 10px;
+    letter-spacing: 1px;
+    line-height: 1.7;
+}
+
+.hero-label strong {
+    display: block;
+    color: var(--blue);
+    font-size: 15px;
+}
+
+/* PRODUCTS */
+
+.products-section {
+    padding-block: 72px;
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 25px;
+    margin-bottom: 28px;
+}
+
+.section-heading h2,
+.about-card h2 {
+    margin: 8px 0;
+    color: var(--navy);
+    font: 700 clamp(24px, 3vw, 32px)/1.5 "Noto Sans Tamil", sans-serif;
+}
+
+.section-heading p,
+.about-card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.9;
+}
+
+.search-box {
+    width: min(320px, 100%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: #FBFDFE;
+    color: var(--blue);
+}
+
+.search-box span {
+    font-size: 26px;
+}
+
+.search-box input {
+    width: 100%;
+    min-width: 0;
+    padding: 13px 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font: 13px "Noto Sans Tamil", sans-serif;
+}
+
+.search-box:focus-within {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(10, 110, 189, 0.08);
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 21px;
+}
+
+.product-card {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: white;
+    box-shadow: 0 7px 24px rgba(11, 57, 84, 0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow);
+}
+
+.product-image {
+   
+    padding: 12px;
+    place-items: center;
+    overflow: hidden;
+    background: var(--pale);
+    width: 100%;
+    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  
+}
+
+
+.product-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 12px;
+}
+
+.product-image img.image-failed {
+    display: none;
+}
+
+.image-placeholder {
+    display: none;
+    width: 100%;
+    height: 100%;
+    place-items: center;
+    border-radius: 12px;
+    background: #E1F1F4;
+    font-size: 52px;
+}
+
+.image-placeholder.visible {
+    display: grid;
+}
+
+.product-info {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 16px;
+}
+
+.product-info h3 {
+    margin: 0 0 4px;
+    color: var(--navy);
+    font: 700 16px/1.6 "Noto Sans Tamil", sans-serif;
+    overflow-wrap: anywhere;
+}
+
+.english-name {
+    min-height: 30px;
+    margin: 0 0 12px;
+    color: var(--muted);
+    font-size: 10px;
+    letter-spacing: 0.4px;
+    line-height: 1.5;
+}
+
+.product-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: auto;
+}
+
+.price {
+    color: var(--blue);
+    font-size: 20px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.price small {
+    display: block;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 500;
+}
+
+.add-button {
+    padding: 10px 11px;
+    border: 0;
+    border-radius: 9px;
+    background: var(--blue);
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.add-button:hover {
+    background: var(--navy);
+}
+
+.no-results {
+    padding: 30px;
+    border-radius: 12px;
+    background: var(--pale);
+    color: var(--muted);
+    text-align: center;
+    font-family: "Noto Sans Tamil", sans-serif;
+}
+
+/* ABOUT AND FOOTER */
+
+.about-section {
+    padding: 0 0 65px;
+}
+
+.about-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 27px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: linear-gradient(110deg, #F1F9FC, #FFFAF1);
+}
+
+.about-icon {
+    flex: 0 0 62px;
+    width: 62px;
+    height: 62px;
+    display: grid;
+    place-items: center;
+    border-radius: 18px;
+    background: white;
+    box-shadow: var(--shadow);
+    font-size: 30px;
+}
+
+.site-footer {
+    padding: 22px 0;
+    border-top: 1px solid var(--line);
+    background: #F7FBFD;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.footer-inner {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.footer-inner a {
+    color: var(--blue);
+    font-weight: 700;
+}
+
+/* CART DRAWER */
+
+.cart-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background: rgba(5, 24, 36, 0.45);
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.25s;
+}
+
+.cart-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.cart-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 41;
+    width: min(440px, 100%);
+    height: 100vh;
+    height: 100dvh;
+    padding: 23px;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    box-shadow: -15px 0 45px rgba(11, 57, 84, 0.15);
+    transform: translateX(105%);
+    transition: transform 0.28s;
+}
+
+.cart-drawer.active {
+    transform: translateX(0);
+}
+
+.cart-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+}
+
+.cart-header h2,
+.order-modal h2 {
+    margin: 6px 0;
+    color: var(--navy);
+    font: 700 24px "Noto Sans Tamil", sans-serif;
+}
+
+.icon-button {
+    width: 39px;
+    height: 39px;
+    border: 1px solid var(--line);
+    border-radius: 11px;
+    background: white;
+    color: var(--navy);
+    font-size: 17px;
+}
+
+.cart-items {
+    flex: 1;
+    overflow-y: auto;
+    padding-block: 12px;
+}
+
+.empty-cart {
+    padding: 40px 10px;
+    color: var(--muted);
+    text-align: center;
+    font: 13px/1.8 "Noto Sans Tamil", sans-serif;
+}
+
+.empty-cart span {
+    display: block;
+    font-size: 42px;
+}
+
+.empty-cart strong {
+    display: block;
+    color: var(--navy);
+}
+
+.cart-item {
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    gap: 12px;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.cart-item-image {
+    width: 70px;
+    height: 70px;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    border-radius: 11px;
+    background: var(--pale);
+}
+
+.cart-item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.cart-item-info h3 {
+    margin: 0 0 3px;
+    color: var(--navy);
+    font: 700 13px "Noto Sans Tamil", sans-serif;
+}
+
+.cart-item-info p {
+    margin: 0 0 5px;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.cart-item-info strong {
+    color: var(--blue);
+    font-size: 13px;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 7px;
+}
+
+.quantity-controls button {
+    width: 26px;
+    height: 26px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    background: white;
+    color: var(--navy);
+}
+
+.quantity-controls .remove-button {
+    width: auto;
+    padding: 0 5px;
+    border: 0;
+    color: #B84B3A;
+    font-size: 10px;
+}
+
+.cart-footer {
+    padding-top: 15px;
+    border-top: 1px solid var(--line);
+}
+
+.cart-total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 13px;
+    color: var(--navy);
+    font: 600 14px "Noto Sans Tamil", sans-serif;
+}
+
+.cart-total strong {
+    color: var(--blue);
+    font: 800 23px "Poppins", sans-serif;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.cart-note {
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1.7;
+}
+
+/* ORDER MODAL */
+
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: grid;
+    place-items: center;
+    padding: 18px;
+    background: rgba(5, 24, 36, 0.55);
+}
+
+.modal-backdrop[hidden] {
+    display: none;
+}
+
+.order-modal {
+    position: relative;
+    width: min(460px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 28px;
+    border-radius: 18px;
+    background: white;
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+.order-modal p {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+#orderSummary {
+    color: var(--ink);
+    font-size: 12px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+}
+
+.copy-message {
+    color: var(--green) !important;
+}
+
+/* TABLET */
+
+@media (max-width: 1000px) {
+    .product-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 17px;
+    }
+
+    .product-image {
+        height: 185px;
+    }
+}
+
+/* MOBILE */
+
+@media (max-width: 760px) {
+    .container {
+        width: calc(100% - 30px);
+    }
+
+    .header-inner {
+        min-height: 68px;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .nav-links {
+        position: absolute;
+        top: 68px;
+        left: 0;
+        right: 0;
+        display: none;
+        align-items: stretch;
+        flex-direction: column;
+        gap: 0;
+        padding: 12px 20px 18px;
+        border-bottom: 1px solid var(--line);
+        background: white;
+        box-shadow: var(--shadow);
+    }
+
+    .nav-links.open {
+        display: flex;
+    }
+
+    .nav-links a {
+        padding: 12px 0;
+    }
+
+    .cart-button {
+        justify-content: center;
+        margin-top: 8px;
+    }
+
+    .brand strong {
+        font-size: 14px;
+    }
+
+    .brand small {
+        font-size: 8px;
+    }
+
+    .brand-icon {
+        width: 41px;
+        height: 41px;
+    }
+
+    .hero-inner {
+        grid-template-columns: 1fr;
+        padding-block: 35px 20px;
+        text-align: center;
+    }
+
+    .hero-points {
+        justify-content: center;
+        font-size: 10px;
+    }
+
+    .hero-art {
+        min-height: 205px;
+    }
+
+    .hero-circle {
+        width: 195px;
+    }
+
+    .hero-fish {
+        font-size: 115px;
+    }
+
+    .hero-label {
+        right: 8%;
+        bottom: 0;
+    }
+
+    .products-section {
+        padding-block: 48px;
+    }
+
+    .section-heading {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .product-image {
+        height: 150px;
+        padding: 8px;
+    }
+
+    .product-info {
+        padding: 11px;
+    }
+
+    .product-info h3 {
+        font-size: 13px;
+    }
+
+    .english-name {
+        font-size: 9px;
+        min-height: 28px;
+        margin-bottom: 9px;
+    }
+
+    .product-bottom {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .price {
+        font-size: 17px;
+    }
+
+    .add-button {
+        width: 100%;
+        padding: 9px 5px;
+        font-size: 11px;
+    }
+
+    .about-card {
+        align-items: flex-start;
+        padding: 20px;
+    }
+
+    .about-icon {
+        flex-basis: 50px;
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 360px) {
+    .container {
+        width: calc(100% - 22px);
+    }
+
+    .product-grid {
+        gap: 8px;
+    }
+
+    .product-image {
+        height: 125px;
+    }
+
+    .product-info {
+        padding: 9px;
+    }
+
+    .product-info h3 {
+        font-size: 12px;
+    }
+
+    .price {
+        font-size: 15px;
+    }
+}
