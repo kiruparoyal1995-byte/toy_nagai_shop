@@ -15,7 +15,7 @@ const products = [
         tamil: "நெத்திலி",
         english: "NETHILI",
         price: 400,
-        image: "fish images/Premium Nethili Dry Fish Pouch.png"
+        image: ""
     },
     {
         id: 3,
@@ -221,13 +221,13 @@ function searchProducts() {
 
 function addToCart(productId) {
     const product = products.find(
-        item => item.id === productId
+        item => Number(item.id) === Number(productId)
     );
 
     if (!product) return;
 
     const existingItem = cart.find(
-        item => item.id === productId
+        item => Number(item.id) === Number(productId)
     );
 
     if (existingItem) {
@@ -358,7 +358,7 @@ function renderCart() {
 
 function changeQuantity(productId, amount) {
     const item = cart.find(
-        product => product.id === productId
+        product => Number(product.id) === Number(productId)
     );
 
     if (!item) return;
@@ -367,7 +367,7 @@ function changeQuantity(productId, amount) {
 
     if (item.quantity <= 0) {
         cart = cart.filter(
-            product => product.id !== productId
+            product => Number(product.id) !== Number(productId)
         );
     }
 
@@ -381,7 +381,7 @@ function changeQuantity(productId, amount) {
 
 function removeFromCart(productId) {
     cart = cart.filter(
-        item => item.id !== productId
+        item => Number(item.id) !== Number(productId)
     );
 
     saveCart();
@@ -454,6 +454,84 @@ function closeOrderModal() {
     document.getElementById("orderModal").hidden = true;
 }
 
+
+
+async function saveOrder() {
+    const customerName = prompt("Enter your name:");
+    if (!customerName || !customerName.trim()) {
+        alert("Please enter your name.");
+        return;
+    }
+
+    const phone = prompt("Enter your phone number:");
+    if (!phone || !phone.trim()) {
+        alert("Please enter your phone number.");
+        return;
+    }
+
+    const address = prompt("Enter your delivery address:");
+    if (!address || !address.trim()) {
+        alert("Please enter your address.");
+        return;
+    }
+
+    if (!cart || cart.length === 0) {
+        alert("Your cart is empty.");
+        return;
+    }
+
+    const total = cart.reduce(
+        (sum, item) => sum + Number(item.price) * Number(item.quantity),
+        0
+    );
+
+    try {
+        const response = await fetch("http://localhost:5000/api/orders", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                customerName: customerName.trim(),
+                phone: phone.trim(),
+                address: address.trim(),
+                items: cart,
+                total: total
+            })
+        });
+          
+const responseText = await response.text();
+
+console.log("Order API status:", response.status);
+console.log("Order API response:", responseText);
+
+let result;
+
+try {
+    result = JSON.parse(responseText);
+} catch (error) {
+    alert("Invalid server response. Check the browser Console.");
+    return;
+}
+
+
+        if (!response.ok) {
+            throw new Error(result.message || "Could not save order.");
+        }
+
+        alert("Order saved successfully! Order ID: " + (result.orderId || "confirmed"));
+        cart = [];
+        saveCart();
+        renderCart();
+        closeOrderModal();
+        closeCart();
+
+    } catch (error) {
+        console.error("Save order error:", error);
+        alert("Order was not saved: " + error.message + "\\nCheck that the backend and MongoDB are running.");
+    }
+}
+
 async function copyOrderSummary() {
     const summary = document.getElementById("orderSummary").textContent;
 
@@ -483,32 +561,29 @@ function toggleMenu() {
 // EVENT LISTENERS
 // ======================================
 
-document.getElementById("searchInput")
-    .addEventListener("input", searchProducts);
+// Bind events only after confirming the HTML element exists.
+function bindClick(id, handler) {
+    const element = document.getElementById(id);
+    if (element) element.addEventListener("click", handler);
+}
 
-document.getElementById("openCartButton")
-    .addEventListener("click", openCart);
+function bindInput(id, handler) {
+    const element = document.getElementById(id);
+    if (element) element.addEventListener("input", handler);
+}
 
-document.getElementById("closeCartButton")
-    .addEventListener("click", closeCart);
+bindInput("searchInput", searchProducts);
+bindClick("openCartButton", openCart);
+bindClick("closeCartButton", closeCart);
+bindClick("cartOverlay", closeCart);
+bindClick("checkoutButton", checkout);
+bindClick("closeModalButton", closeOrderModal);
+bindClick("saveOrderButton", saveOrder);
+bindClick("copyOrderButton", copyOrderSummary);
+bindClick("menuToggle", toggleMenu);
 
-document.getElementById("cartOverlay")
-    .addEventListener("click", closeCart);
-
-document.getElementById("checkoutButton")
-    .addEventListener("click", checkout);
-
-document.getElementById("closeModalButton")
-    .addEventListener("click", closeOrderModal);
-
-document.getElementById("copyOrderButton")
-    .addEventListener("click", copyOrderSummary);
-
-document.getElementById("menuToggle")
-    .addEventListener("click", toggleMenu);
-
-document.getElementById("currentYear").textContent =
-    new Date().getFullYear();
+const yearElement = document.getElementById("currentYear");
+if (yearElement) yearElement.textContent = new Date().getFullYear();
 
 document.addEventListener("keydown", function (event) {
     if (event.key === "Escape") {
@@ -517,9 +592,59 @@ document.addEventListener("keydown", function (event) {
     }
 });
 
-// ======================================
-// INITIAL LOAD
-// ======================================
+ // ======================================
+ // INITIAL LOAD - API
+ // ======================================
 
+async function loadProducts() {
+    try {
+        const response = await fetch(
+            "http://localhost:5000/api/products"
+        );
+
+        if (!response.ok) {
+            throw new Error("API request failed: " + response.status);
+        }
+
+        const apiProducts = await response.json();
+
+        if (!Array.isArray(apiProducts)) {
+            throw new Error("API did not return a product list");
+        }
+
+        // Keep your existing local product images as fallbacks.
+        const updatedProducts = apiProducts.map(item => {
+            const oldProduct = products.find(
+                product => product.id === item.id
+            );
+
+            return {
+                id: item.id,
+                tamil: item.tamil || item.name || oldProduct?.tamil || "",
+                english: item.english || oldProduct?.english || item.name || "",
+                price: Number(item.price),
+                image: item.image || oldProduct?.image || ""
+            };
+        });
+
+        // Update the existing array used by the cart and search.
+        products.splice(0, products.length, ...updatedProducts);
+
+        displayProducts();
+        renderCart();
+
+        console.log("Products loaded from API:", products);
+
+    } catch (error) {
+        console.error("API Error:", error);
+
+        // Show existing local products if the API is unavailable.
+        displayProducts();
+        renderCart();
+    }
+}
+
+// Render immediately from local data, then refresh from the backend API.
 displayProducts();
 renderCart();
+loadProducts();

@@ -160,28 +160,31 @@
         </div>
     </aside>
 
-    <!-- ORDER SUMMARY -->
+    <!-- ORDER SUMMARY MODAL -->
     <div class="modal-backdrop" id="orderModal" hidden>
-        <div class="order-modal" role="dialog" aria-modal="true">
+        <div class="order-modal" role="dialog" aria-modal="true" aria-labelledby="orderModalTitle">
             <button class="icon-button modal-close" id="closeModalButton"
-                type="button" aria-label="Close">✕</button>
+                type="button" aria-label="Close order summary">✕</button>
 
             <span class="eyebrow">ORDER SUMMARY</span>
-            <h2>ஆர்டர் விவரங்கள்</h2>
+            <h2 id="orderModalTitle">ஆர்டர் விவரங்கள்</h2>
 
             <p>
-                இது உங்கள் தேர்ந்தெடுத்த பொருட்களின் summary மட்டுமே.
-                உண்மையான order அனுப்பப்படாது.
+                இது உங்கள் தேர்ந்தெடுத்த பொருட்களின் சுருக்கம்.
+                ஆர்டரைச் சேமிக்க உங்கள் பெயர், தொலைபேசி எண், முகவரியை உள்ளிடவும்.
             </p>
 
             <pre id="orderSummary"></pre>
 
-            <button class="primary-button full-width" id="copyOrderButton"
-                type="button">
+            <button class="primary-button full-width" id="saveOrderButton" type="button">
+                ஆர்டரை சேமிக்கவும்
+            </button>
+
+            <button class="primary-button full-width" id="copyOrderButton" type="button">
                 விவரங்களை நகலெடு
             </button>
 
-            <p id="copyMessage" class="copy-message"></p>
+            <p id="copyMessage" class="copy-message" aria-live="polite"></p>
         </div>
     </div>
 
