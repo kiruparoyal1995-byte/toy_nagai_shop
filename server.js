@@ -18,6 +18,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+
+
 const products = [
     { id: 1, tamil: "பால் சுறா", english: "MILK SHARK", price: 800, image: "fish images/Premium Nagai Dry Fish Pouch.png" },
     { id: 2, tamil: "நெத்திலி", english: "NETHILI", price: 400, image: "fish images/NETHILI.png" },
