@@ -17,7 +17,6 @@ const cors = require("cors");
 
 const bcrypt = require("bcryptjs");
 const Customer = require("./models/customer");
-
 const app = express();
 app.use(express.static(__dirname));
 
