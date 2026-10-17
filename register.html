@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Registration | Nagai Dry Fish Shop</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .register-container {
+      max-width: 420px;
+      margin: 50px auto;
+      padding: 28px;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    .register-container h1 {
+      color: #0B3954;
+      text-align: center;
+      font-size: 25px;
+    }
+    .register-container p {
+      text-align: center;
+      color: #555;
+    }
+    .register-container label {
+      display: block;
+      margin-top: 16px;
+      font-weight: 600;
+    }
+    .register-container input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+    .register-container button {
+      width: 100%;
+      padding: 13px;
+      margin-top: 22px;
+      background: #0A6EBD;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #registerMessage {
+      margin-top: 15px;
+      overflow-wrap: anywhere;
+    }
+  </style>
+</head>
+<body>
+
+  <main class="register-container">
+    <h1>நாகை கருவாடு கடை</h1>
+    <p>Create Your Customer Account</p>
+
+    <form id="registerForm">
+      <label for="name">Customer Name</label>
+      <input type="text" id="name" name="name"
+             placeholder="Enter your name" required>
+
+      <label for="mobile">Mobile Number</label>
+      <input type="tel" id="mobile" name="mobile"
+             placeholder="10-digit mobile number"
+             pattern="[6-9][0-9]{9}" maxlength="10" required>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password"
+             minlength="8" placeholder="At least 8 characters" required>
+
+      <label for="confirmPassword">Confirm Password</label>
+      <input type="password" id="confirmPassword"
+             name="confirmPassword"
+             minlength="8" placeholder="Re-enter password" required>
+
+      <button type="submit">Create Account</button>
+      <p id="registerMessage" role="status"></p>
+    </form>
+
+    <p>Already registered? <a href="login.html">Login here</a></p>
+    <p><a href="index.html">Back to Home</a></p>
+  </main>
+
+  <script src="register.js"></script>
+</body>
+</html>

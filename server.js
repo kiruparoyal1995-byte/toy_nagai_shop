@@ -13,6 +13,9 @@ mongoose.connect(process.env.MONGO_URI)
 const express = require("express");
 const cors = require("cors");
 
+const bcrypt = require("bcryptjs");
+const Customer = require("./models/Customer");
+
 const app = express();
 
 app.use(cors());
@@ -91,6 +94,108 @@ app.post("/api/orders", async (req, res) => {
     });
   }
 });
+
+
+app.post("/api/auth/register", async (req, res) => {
+  try {
+    const { name, mobile, password } = req.body;
+
+    if (!name || !mobile || !password) {
+      return res.status(400).json({
+        message: "Name, mobile and password are required."
+      });
+    }
+
+    if (!/^[6-9]\d{9}$/.test(mobile)) {
+      return res.status(400).json({
+        message: "Enter a valid 10-digit Indian mobile number."
+      });
+    }
+
+    if (password.length < 8) {
+      return res.status(400).json({
+        message: "Password must contain at least 8 characters."
+      });
+    }
+
+    const existingCustomer = await Customer.findOne({ mobile });
+
+    if (existingCustomer) {
+      return res.status(409).json({
+        message: "This mobile number is already registered."
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+    const customer = await Customer.create({
+      name: name.trim(),
+      mobile,
+      password: hashedPassword
+    });
+
+    return res.status(201).json({
+      message: "Registration successful!",
+      customer: {
+        id: customer._id,
+        name: customer.name,
+        mobile: customer.mobile
+      }
+    });
+  } catch (error) {
+    console.error("Registration error:", error.message);
+    return res.status(500).json({
+      message: "Registration failed. Please try again."
+    });
+  }
+});
+
+
+app.post("/api/auth/login", async (req, res) => {
+  try {
+    const { mobile, password } = req.body;
+
+    if (!mobile || !password) {
+      return res.status(400).json({
+        message: "Mobile number and password are required."
+      });
+    }
+
+    const customer = await Customer.findOne({ mobile });
+
+    if (!customer) {
+      return res.status(401).json({
+        message: "Invalid mobile number or password."
+      });
+    }
+
+    const passwordMatches = await bcrypt.compare(
+      password,
+      customer.password
+    );
+
+    if (!passwordMatches) {
+      return res.status(401).json({
+        message: "Invalid mobile number or password."
+      });
+    }
+
+    return res.status(200).json({
+      message: "Login successful!",
+      customer: {
+        id: customer._id,
+        name: customer.name,
+        mobile: customer.mobile
+      }
+    });
+  } catch (error) {
+    console.error("Login error:", error.message);
+    return res.status(500).json({
+      message: "Login failed. Please try again."
+    });
+  }
+});
+
 
 app.listen(process.env.PORT || 5000, () => {
     console.log(`Nagai Dry Fish API running at http://localhost:${process.env.PORT || 5000}`);
