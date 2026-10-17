@@ -195,7 +195,9 @@ app.post("/api/auth/login", async (req, res) => {
     });
   }
 });
-
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/index.html");
+});
 
 app.listen(process.env.PORT || 5000, () => {
     console.log(`Nagai Dry Fish API running at http://localhost:${process.env.PORT || 5000}`);
