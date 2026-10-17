@@ -10,6 +10,8 @@ mongoose.connect(process.env.MONGO_URI)
     console.error("MongoDB connection failed:", error.message);
   });
 
+  
+
 const express = require("express");
 const cors = require("cors");
 
@@ -17,6 +19,7 @@ const bcrypt = require("bcryptjs");
 const Customer = require("./models/customer");
 
 const app = express();
+app.use(express.static(__dirname));
 
 app.use(cors());
 app.use(express.json());
