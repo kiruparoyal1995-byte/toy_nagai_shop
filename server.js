@@ -14,7 +14,7 @@ const express = require("express");
 const cors = require("cors");
 
 const bcrypt = require("bcryptjs");
-const Customer = require("./models/Customer");
+const Customer = require("./models/customer");
 
 const app = express();
 
