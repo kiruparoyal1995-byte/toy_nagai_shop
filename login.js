@@ -31,6 +31,10 @@ loginForm.addEventListener("submit", async (event) => {
 
     message.textContent = "Login successful! Welcome, " + data.customer.name + ".";
 
+    setTimeout(() => {
+    window.location.href = "index.html";
+}, 1500);
+
   } catch (error) {
     console.error("Login error:", error);
     message.textContent =
