@@ -12,7 +12,7 @@ loginForm.addEventListener("submit", async (event) => {
 
   try {
     const response = await fetch(
-    "https://toy-nagai-shop.onrender.com/api/auth/login",
+   "https://toy-nagai-shop.onrender.com/api/auth/login",
       {
         method: "POST",
         headers: {
