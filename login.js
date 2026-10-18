@@ -29,11 +29,12 @@ loginForm.addEventListener("submit", async (event) => {
       return;
     }
 
-    message.textContent = "Login successful! Welcome, " + data.customer.name + ".";
+     message.textContent = "Login successful! Welcome, " + data.customer.name;
 
-    setTimeout(() => {
-    window.location.href = "index.html";
-}, 1500);
+     sessionStorage.setItem("authToken", data.token);
+
+    window.location.replace("/");
+
 
   } catch (error) {
     console.error("Login error:", error);
