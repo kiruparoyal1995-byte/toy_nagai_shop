@@ -223,6 +223,10 @@ app.post("/api/auth/login", async (req, res) => {
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
+app.get("/admin-login.html", (req, res) => {
+    res.sendFile(__dirname + "/admin-login.html");
+});
+
 
 app.post("/api/admin/login", async (req, res) => {
   const { username, password } = req.body;
