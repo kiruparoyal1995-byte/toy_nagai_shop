@@ -9,7 +9,7 @@ const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const path = require("path");
 
-const Customer = require("./models/customer");
+const Customer = require("./models/Customer");
 
 const app = express();
 
