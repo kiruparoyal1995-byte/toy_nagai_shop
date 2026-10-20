@@ -67,6 +67,18 @@ const orderSchema = new mongoose.Schema({
 
 const Order = mongoose.model("Order", orderSchema);
 
+app.get("/api/orders", async (req, res) => {
+    try {
+        const orders = await Order.find().sort({ createdAt: -1 });
+        res.status(200).json(orders);
+    } catch (error) {
+        console.error("Fetching orders failed:", error.message);
+        res.status(500).json({
+            message: "Unable to fetch orders."
+        });
+    }
+});
+
 app.post("/api/orders", async (req, res) => {
   try {
     const { customerName, phone, address, items, total } = req.body;
