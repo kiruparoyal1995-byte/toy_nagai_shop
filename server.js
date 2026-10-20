@@ -1,8 +1,27 @@
+
 require("dotenv").config();
 
+const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
+const path = require("path");
 
-mongoose.connect(process.env.MONGO_URI)
+const Customer = require("./models/customer");
+
+const app = express();
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(cookieParser());
+app.use(express.static(__dirname));
+
+// Connect to MongoDB
+mongoose
+  .connect(process.env.MONGO_URI)
   .then(() => {
     console.log("MongoDB connected successfully!");
   })
@@ -10,46 +29,69 @@ mongoose.connect(process.env.MONGO_URI)
     console.error("MongoDB connection failed:", error.message);
   });
 
-  
-
-const express = require("express");
-const cors = require("cors");
-
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-
-const cookieParser = require("cookie-parser");
-const Customer = require("./models/customer");
-const app = express();
-app.use(express.static(__dirname));
-
-app.use(cors());
-app.use(express.json());
-app.use(cookieParser());
-
-
-
+// Products
 const products = [
-    { id: 1, tamil: "பால் சுறா", english: "MILK SHARK", price: 800, image: "fish images/Premium Nagai Dry Fish Pouch.png" },
-    { id: 2, tamil: "நெத்திலி", english: "NETHILI", price: 400, image: "fish images/NETHILI.png" },
-    { id: 3, tamil: "திருக்கை", english: "THIRUKKAI", price: 500 },
-    { id: 4, tamil: "கூனி இறால்", english: "KOONI IRAAL", price: 500 },
-    { id: 5, tamil: "முள்ளு வாளை", english: "MULLU VAALAI", price: 500 },
-    { id: 6, tamil: "வாளை", english: "VAALAI", price: 500 },
-    { id: 7, tamil: "பெரிய நெத்திலி", english: "BIG NETHILI", price: 600 },
-    { id: 8, tamil: "பட்டறை வஞ்சிரம்", english: "PATTARAI VANCHIRAM", price: 900 },
-    { id: 9, tamil: "பட்டறை வஞ்சிரம்", english: "PATTARAI VANCHIRAM BIG", price: 1100 },
-    { id: 10, tamil: "பட்டறை பாறை", english: "PATTARAI PAARAI", price: 700 },
-    { id: 11, tamil: "பண்ணா", english: "PANNA", price: 400 }
+  {
+    id: 1,
+    tamil: "பால் சுறா",
+    english: "MILK SHARK",
+    price: 800,
+    image: "fish images/Premium Nagai Dry Fish Pouch.png"
+  },
+  {
+    id: 2,
+    tamil: "நெத்திலி",
+    english: "NETHILI",
+    price: 400,
+    image: "fish images/NETHILI.png"
+  },
+  { id: 3, tamil: "திருக்கை", english: "THIRUKKAI", price: 500 },
+  { id: 4, tamil: "கூனி இறால்", english: "KOONI IRAAL", price: 500 },
+  { id: 5, tamil: "முள்ளு வாளை", english: "MULLU VAALAI", price: 500 },
+  { id: 6, tamil: "வாளை", english: "VAALAI", price: 500 },
+  { id: 7, tamil: "பெரிய நெத்திலி", english: "BIG NETHILI", price: 600 },
+  {
+    id: 8,
+    tamil: "பட்டறை வஞ்சிரம்",
+    english: "PATTARAI VANCHIRAM",
+    price: 900
+  },
+  {
+    id: 9,
+    tamil: "பட்டறை வஞ்சிரம்",
+    english: "PATTARAI VANCHIRAM BIG",
+    price: 1100
+  },
+  {
+    id: 10,
+    tamil: "பட்டறை பாறை",
+    english: "PATTARAI PAARAI",
+    price: 700
+  },
+  { id: 11, tamil: "பண்ணா", english: "PANNA", price: 400 }
 ];
 
-app.get("/api/products", (req, res) => {
-    res.json(products);
+// Home page
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
+// Admin login page
+app.get("/admin-login.html", (req, res) => {
+  res.sendFile(path.join(__dirname, "admin-login.html"));
+});
 
+// Admin dashboard page
+app.get("/admin.html", (req, res) => {
+  res.sendFile(path.join(__dirname, "admin.html"));
+});
 
-// Save customer orders to MongoDB
+// Products API
+app.get("/api/products", (req, res) => {
+  res.json(products);
+});
+
+// Order schema
 const orderSchema = new mongoose.Schema({
   customerName: { type: String, required: true },
   phone: { type: String, required: true },
@@ -70,24 +112,32 @@ const orderSchema = new mongoose.Schema({
 
 const Order = mongoose.model("Order", orderSchema);
 
+// Get all orders
 app.get("/api/orders", async (req, res) => {
-    try {
-        const orders = await Order.find().sort({ createdAt: -1 });
-        res.status(200).json(orders);
-    } catch (error) {
-        console.error("Fetching orders failed:", error.message);
-        res.status(500).json({
-            message: "Unable to fetch orders."
-        });
-    }
+  try {
+    const orders = await Order.find().sort({ createdAt: -1 });
+    res.status(200).json(orders);
+  } catch (error) {
+    console.error("Fetching orders failed:", error.message);
+    res.status(500).json({
+      message: "Unable to fetch orders."
+    });
+  }
 });
 
+// Save an order
 app.post("/api/orders", async (req, res) => {
   try {
     const { customerName, phone, address, items, total } = req.body;
 
-    if (!customerName || !phone || !address ||
-        !Array.isArray(items) || items.length === 0) {
+    if (
+      !customerName ||
+      !phone ||
+      !address ||
+      !Array.isArray(items) ||
+      items.length === 0 ||
+      total === undefined
+    ) {
       return res.status(400).json({
         message: "Please provide customer details and order items."
       });
@@ -101,19 +151,19 @@ app.post("/api/orders", async (req, res) => {
       total
     });
 
-    res.status(201).json({
+    return res.status(201).json({
       message: "Order saved successfully!",
       orderId: order._id
     });
   } catch (error) {
     console.error("Order saving failed:", error.message);
-    res.status(500).json({
+    return res.status(500).json({
       message: "Unable to save order."
     });
   }
 });
 
-
+// Customer registration
 app.post("/api/auth/register", async (req, res) => {
   try {
     const { name, mobile, password } = req.body;
@@ -136,7 +186,6 @@ app.post("/api/auth/register", async (req, res) => {
       });
     }
 
-    console.log("Registration mobile:", JSON.stringify(mobile));
     const existingCustomer = await Customer.findOne({ mobile });
 
     if (existingCustomer) {
@@ -169,7 +218,7 @@ app.post("/api/auth/register", async (req, res) => {
   }
 });
 
-
+// Customer login
 app.post("/api/auth/login", async (req, res) => {
   try {
     const { mobile, password } = req.body;
@@ -200,10 +249,11 @@ app.post("/api/auth/login", async (req, res) => {
     }
 
     const token = jwt.sign(
-    { customerId: customer._id },
-    process.env.JWT_SECRET,
-    { expiresIn: "1h" }
-);
+      { customerId: customer._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
     return res.status(200).json({
       message: "Login successful!",
       token,
@@ -220,14 +270,8 @@ app.post("/api/auth/login", async (req, res) => {
     });
   }
 });
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
-});
-app.get("/admin-login.html", (req, res) => {
-    res.sendFile(__dirname + "/admin-login.html");
-});
 
-
+// Admin login API
 app.post("/api/admin/login", async (req, res) => {
   const { username, password } = req.body;
 
@@ -247,7 +291,9 @@ app.post("/api/admin/login", async (req, res) => {
   });
 });
 
+// Start server
+const PORT = process.env.PORT || 5000;
 
-app.listen(process.env.PORT || 5000, () => {
-    console.log(`Nagai Dry Fish API running at http://localhost:${process.env.PORT || 5000}`);
+app.listen(PORT, () => {
+  console.log(`Nagai Dry Fish API running on port ${PORT}`);
 });
