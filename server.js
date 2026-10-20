@@ -16,6 +16,7 @@ const express = require("express");
 const cors = require("cors");
 
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const Customer = require("./models/customer");
 const app = express();
 app.use(express.static(__dirname));
@@ -120,6 +121,7 @@ app.post("/api/auth/register", async (req, res) => {
       });
     }
 
+    console.log("Registration mobile:", JSON.stringify(mobile));
     const existingCustomer = await Customer.findOne({ mobile });
 
     if (existingCustomer) {
@@ -182,8 +184,14 @@ app.post("/api/auth/login", async (req, res) => {
       });
     }
 
+    const token = jwt.sign(
+    { customerId: customer._id },
+    process.env.JWT_SECRET,
+    { expiresIn: "1h" }
+);
     return res.status(200).json({
       message: "Login successful!",
+      token,
       customer: {
         id: customer._id,
         name: customer.name,
