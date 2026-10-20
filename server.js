@@ -17,12 +17,15 @@ const cors = require("cors");
 
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+
+const cookieParser = require("cookie-parser");
 const Customer = require("./models/customer");
 const app = express();
 app.use(express.static(__dirname));
 
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 
 
 
@@ -220,6 +223,26 @@ app.post("/api/auth/login", async (req, res) => {
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
+
+app.post("/api/admin/login", async (req, res) => {
+  const { username, password } = req.body;
+
+  if (
+    username === process.env.ADMIN_USERNAME &&
+    password === process.env.ADMIN_PASSWORD
+  ) {
+    return res.status(200).json({
+      success: true,
+      message: "Admin login successful"
+    });
+  }
+
+  return res.status(401).json({
+    success: false,
+    message: "Invalid admin username or password"
+  });
+});
+
 
 app.listen(process.env.PORT || 5000, () => {
     console.log(`Nagai Dry Fish API running at http://localhost:${process.env.PORT || 5000}`);
