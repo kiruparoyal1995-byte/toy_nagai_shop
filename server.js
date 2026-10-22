@@ -43,7 +43,7 @@ const products = [
     tamil: "நெத்திலி",
     english: "NETHILI",
     price: 400,
-    image: "fish images/NETHILI.png"
+    image: "fish images/Premium Nethili Dried Fish Pouch.png"
   },
   { id: 3, tamil: "திருக்கை", english: "THIRUKKAI", price: 500 },
   { id: 4, tamil: "கூனி இறால்", english: "KOONI IRAAL", price: 500 },
