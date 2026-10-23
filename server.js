@@ -86,14 +86,14 @@ mongoose
     tamil: "பட்டறை வஞ்சிரம்",
     english: "PATTARAI VANCHIRAM",
     price: 900,
-    image: "fish images/Premium Tamil PATTARAI VANCHIRAM.png"
+    image: "fish images/Pattarai Vanchiram Dry Fish Pouch.png"
   },
   {
     id: 9,
     tamil: "பட்டறை வஞ்சிரம் (பெரியது)",
     english: "PATTARAI VANCHIRAM BIG",
     price: 1100,
-    image: "fish images/Premium Tamil PATTARAI VANCHIRAM.png"
+    image: "fish images/Premium Tamil PATTARAI VANCHIRAM BIG.png"
   },
   {
     id: 10,
