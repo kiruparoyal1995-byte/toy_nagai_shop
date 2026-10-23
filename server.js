@@ -290,10 +290,8 @@ app.post("/api/admin/login", async (req, res) => {
     message: "Invalid admin username or password"
   });
 });
-
-// Start server
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Nagai Dry Fish API running on port ${PORT}`);
 });
