@@ -30,7 +30,8 @@ mongoose
   });
 
 // Products
-const products = [
+  
+    const products = [
   {
     id: 1,
     tamil: "பால் சுறா",
@@ -45,32 +46,70 @@ const products = [
     price: 400,
     image: "fish images/Premium Nethili Dried Fish Pouch.png"
   },
-  { id: 3, tamil: "திருக்கை", english: "THIRUKKAI", price: 500 },
-  { id: 4, tamil: "கூனி இறால்", english: "KOONI IRAAL", price: 500 },
-  { id: 5, tamil: "முள்ளு வாளை", english: "MULLU VAALAI", price: 500 },
-  { id: 6, tamil: "வாளை", english: "VAALAI", price: 500 },
-  { id: 7, tamil: "பெரிய நெத்திலி", english: "BIG NETHILI", price: 600 },
+  {
+    id: 3,
+    tamil: "திருக்கை",
+    english: "THIRUKKAI",
+    price: 500,
+    image: "fish images/Premium Thirukkai Dry Fish Pouch.png"
+  },
+  {
+    id: 4,
+    tamil: "கூனி இறால்",
+    english: "KOONI IRAAL",
+    price: 500,
+    image: "fish images/kooniraal Packaging Mockup.png"
+  },
+  {
+    id: 5,
+    tamil: "முள்ளு வாளை",
+    english: "MULLU VAALAI",
+    price: 500,
+    image: "fish images/Premium Mullu Vaalai Dry Fish Pouch.png"
+  },
+  {
+    id: 6,
+    tamil: "வாளை",
+    english: "VAALAI",
+    price: 500,
+    image: "fish images/Glossy Vaalai Dry Fish Pouch.png"
+  },
+  {
+    id: 7,
+    tamil: "பெரிய நெத்திலி",
+    english: "BIG NETHILI",
+    price: 600,
+    image: "fish images/Premium Big Nethili Dry Fish Pouch.png"
+  },
   {
     id: 8,
     tamil: "பட்டறை வஞ்சிரம்",
     english: "PATTARAI VANCHIRAM",
-    price: 900
+    price: 900,
+    image: "fish images/Premium Tamil PATTARAI VANCHIRAM.png"
   },
   {
     id: 9,
-    tamil: "பட்டறை வஞ்சிரம்",
+    tamil: "பட்டறை வஞ்சிரம் (பெரியது)",
     english: "PATTARAI VANCHIRAM BIG",
-    price: 1100
+    price: 1100,
+    image: "fish images/Premium Tamil PATTARAI VANCHIRAM.png"
   },
   {
     id: 10,
     tamil: "பட்டறை பாறை",
     english: "PATTARAI PAARAI",
-    price: 700
+    price: 700,
+    image: "fish images/Premium Nagai பட்டறை பாறை.png"
   },
-  { id: 11, tamil: "பண்ணா", english: "PANNA", price: 400 }
+  {
+    id: 11,
+    tamil: "பண்ணா",
+    english: "PANNA",
+    price: 400,
+    image: "fish images/Premium Panna Dry Fish Pouch.png"
+  }
 ];
-
 // Home page
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
